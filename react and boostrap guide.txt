@@ -1,0 +1,48 @@
+How to install boostrap react
+-----------------------------
+
+download boostrap source files
+(alpha)
+go into the dist folder and copy 
+ * bootstrap.css or 
+ * bootstrap.min.css
+
+ * drop it in the publi/css folder
+	(create it if is not)
+ 
+ * link it in html href=css/boostrap.css 
+(this might result in 404 so css.map is not loaded
+find loader for css.map)
+------------------------------------
+installing sass is  a bit different 
+
+* npm installl --save bootstrap v4.0.0-alpha.6
+
+Currently v4.0.0-alpha.6 is the latest
+the scss folder is now avalible in the node modules
+with all the components we need.
+
+rename app.css to app.scss, and inside
+define import line two levels up
+
+ * @import '../node modules/bootstrpa/scss/bootstrap'
+
+the file bootstrap.scss has all the universal uses fot the 
+package, it impost a bunch of stuff
+the core is almost everything all the components or mudules
+utilities might not be needed
+
+u can import the variable the core and the parts we need.
+
+so that is a diff thing, here we have imported everything in 
+bootstrap 
+
+load _variable found inside scss folder
+
+-----------------------------------------------------
+Node and SASS run independently
+ei -> load only button or jumbotron or caintainers
+
+
+
+

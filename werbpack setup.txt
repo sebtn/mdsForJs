@@ -1,0 +1,57 @@
+==========
+WEBPACK |
+==========
+Is a module bundler. Desing to tranpile and make my life easy and ergonomics 
+in dev
+---------------------------------------------------------------------------------------------------------------------------
+* npm init
+
+* npm install webpack --save-dev
+
+=> install and save webpack inside the dev dependecies (node) object
+
+* npm install jquery --save
+
+=> install and save jquery  inside the regular dependecies node (object)
+---------------------------------------------------------------------------------------------------------------------------
+
+the bundle.js and the main.js should be inside the same folder (directory)
+else the module wont do it. The process at this point is not automatic
+
+* ./node_modules/.bin/webpack  main.js  /.bundle.js
+----------------------------- ------------------------------------------------------------------------------------------------
+
+WEBPACK.CONFIG.JS
+
+To automate we need the webpack.config.js file ehich has a module.exports object
+this object will automate the set up so main.js and ./bundle.js are related
+in the template package.json and webpack.config.js are on the same directory.
+
+the idea is to have later a src  and build folder to better organize the pj folder all of this 
+can be achieved by modifyong the entry and the output on the  WEBPACK.CONFIG.JS
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Webpack loaders
+
+Helps load files and images
+Help with dialacts
+help with trasnformation (transpiling) -> use babel for transform certain files
+JSX and ES6 will be converted in plain js, this is donde by bable-core pkg
+
+All the trasnformations will be added to the output file (the template case  bundle.js)
+ file, where es6 and jsx ...will have to look as plain js in the output file
+
+* npm install babel-core babel-loader --save-dev
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+*
+npm install babel-preset-es2015 babel-preset-react --save-dev
+Babelrc is a file with some presets for the pyct
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+*
+install npm react react-dom --save
+
+
+

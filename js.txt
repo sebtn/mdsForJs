@@ -1,0 +1,76 @@
+SCOPE
+=====
+
+What are we looking for?
+We are looking for the variables
+
+Js is a compiled lng. Diffrence from c++ or others
+
+We dont send the binary that is adiff, we send the originla sources code. 
+It compile every time.
+
+
+Interpeter goes top to bottom they are ignorant from line to line, 
+In line 3 It does not know about line 4, this is true for an interpreted language.
+
+
+In js the compiler goes thru the code at leat two times. 
+In the final pass is where the code gets excecuted. One pass for compiling 
+one pass for excecution.
+In js the compiler is not ignorant it alreadu looked at 
+line 9 before it looked at line 10.
+
+Looks at the code before it excetutes. 
+Compilers look at the scope, blocks of code. 
+In JS the smallest scope is the function.
+
+Compiler terminology
+====================
+DECLARATION VERSUS INTIALIZATION
+
+happen at separate times, is not the same mechanism 
+dewaling with each.
+
+The compiler looks for declarations.
+
+var a  = 'foo'	
+
+var a => declaration
+a = 'foo' => initialization and this is the 
+only one that gets exceuted
+
+
+SOCPE
+=====
+
+LHS and RHS
+left hand side and right hand side of an assigment. 
+= operator is an assigment.
+
+ a is LHS reference
+'bar' = foo is RHS reference
+Reference error comes from here.(???)
+
+Unable to fin LHS ref in any of the scopes.
+Undeclared error. 
+
+BTW undeclare is diff form undefined.
+
+try to assing when is not declared result in error.
+If it was declared you see var or a function somewhere
+
+Ask local scopes first for refences on the variables
+for LHS references.
+Nested scopes. if not found the references 
+go up one level. From local to global.
+
+Each function is a unit of scope.
+
+The argument of a function is also a delcaration.
+Its called implict declaration.
+
+if a lHS reference does not exist, global scope
+in non stric mode will create it in the global scope.
+Leakage of scope in variales.
+
+

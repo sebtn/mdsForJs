@@ -1,0 +1,112 @@
+after guest addtion install if module fails
+beacuse 'make' or gcc is not present
+
+
+ * sudo apt-get install virtualbox-guest-dkms
+
+
+==================================================
+D E B I A N - D E B I A N - D E B I A N
+==================================================
+adding users to sudoers
+-----------------------
+ * su 
+ * nano /etc/sudoers/
+	add username to 
+	ALL=(ALL:ALL) ALL y, bajo ella, añadir los siguiente: 
+	tunombredeusuario ALL=(ALL:ALL)
+
+ * apt-get install build-essential module-assistant;
+
+ <-- prepares kernels -->
+ * apt-get install sudo
+ * m-a prepare 
+ * sh ./media/cdrom/VBoxLinuxAdditions.run
+
+---------------------------------------------------------
+ADD REPOSITORY CAPABILITIES
+
+ * sudo apt-get install software-properties-common
+-----------------------------------------------------
+Install sublime debian
+
+ * wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb
+ * sudo dpkg -i sublime-text_build-3083_amd64.deb
+
+after dwonloading from sublime offical the .deb folder
+
+<-- this comand will install all the deb files -->
+ * sudo dpkg -i name_package_.deb
+
+<-- if apt-get install fails -->
+ * sudo apt-get -f install
+
+=======================================
+Ubuntu // Lubuntu
+=======================================
+sudo:
+update 
+upgrade
+-----------
+apt-get install build-essential module-assistant
+
+=============================================
+NODE AND NPM INSTALLING DEBIAN
+=============================================
+first install node version manager 
+solved version incompatibiliities:
+
+ * curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+
+add to bashrc
+
+* export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm 
+
+create bash profile and add
+
+ * source ~/.bashrc
+
+restart shell and test by typing nvm
+----------------------------------------------------- 
+
+get a tar ball
+
+then uncompress 
+
+ * tar xzf node-$NODE_VERSION-linux-x64.tar.gz or 
+ * tar -zxvf file_name.tar.gz
+
+# Use version 0.10.26
+$ NODE_VERSION="v0.10.26"
+
+# To use a newer version, for example 6.3.1, use instead:
+$ NODE_VERSION="v6.3.1"
+
+$ curl -LO http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz
+$ tar xzf node-$NODE_VERSION-linux-x64.tar.gz
+$ sudo cp -rp node-$NODE_VERSION-linux-x64 /usr/local/
+$ sudo ln -s /usr/local/node-$NODE_VERSION-linux-x64 /usr/local/node
+
+
+The basic idea is to move all the contents of the archive into /usr/local, then create a symlink 
+in /usr/local/node pointing to the most recent version.
+
+For enabling the use of the "node" executable from the command line without referencing the 
+full path (/usr/local/node/bin/node), add /usr/local/node/bin to your $PATH 
+(usually this involves altering the ~/.bash_profile or ~/.profile file; there's plenty of 
+docs for how to do this).
+
+If you need to update Node.js (suppose it's version 6.3.2), then, just extract the tarball 
+in /usr/local and update the symbolic link so it points to the new one. You can then optionally 
+remove the old folder.
+
+LIKE SO:
+-------
+in .bashrc @ home directory add the line
+ * export PATH=$PATH:/usr/local/node/bin
+
+NPM INSTALLING
+--------------
+
+ * sudo apt-get install npm

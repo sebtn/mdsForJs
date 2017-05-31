@@ -1,0 +1,23 @@
+NOTES ON JS METHODS
+===================
+
+.APPLY and .CALL: 
+	.apply() takes elements out of array passed in second 
+parameter and passes them as parameter to the function, so in 
+your examples when .apply(null, [3,6,8]) actually calls the 
+method as in sumArr(3,6,8). So the correct way to pass 
+the parameters would be like sumArr.apply(null, [[3,6,8]]. 
+So your code snippet would look like/.
+
+	Typically you'd only use apply or call if you want to 
+set (this) for the called function.
+
+	The .apply() method is for passing in an array to a 
+function as individual arguments, so sumArr.apply(null, x) 
+here is essentially equivalent to sumArr(3, 6, 8).
+
+	The value 3 doesn't have a length property, so your loop 
+never begins.
+
+	If you want to pass parameters as themselves, 
+you can use .call()
