@@ -118,7 +118,7 @@ firebaseRef.set({
 // firebaseRef.off()
 
 /*using cb*/
-let changeAge = (snapshot) => {
+/*let changeAge = (snapshot) => {
   console.log('got VALUE: ', snapshot.val() )
   firebaseRef.child('user').update({name: 'Seb cb 2'})
 }
@@ -128,4 +128,52 @@ let changeIsrunning = (snapshot) => {
   console.log('got: ', snapshot.val() )
   firebaseRef.update({isRunning: false})
 }
-firebaseRef.on('value', changeIsrunning)
+firebaseRef.on('value', changeIsrunning)*/
+
+/*-----------------------------------------------------------*/
+/*Using arrays by creating a node called notes
+Arrays are created as objects passing unique id as key*/
+
+let notesRef = firebaseRef.child('notes')
+let todosRef = firebaseRef.child('todos')
+
+// let newNoteRef = notesRef.push()
+// newNoteRef.set({
+//   text: 'Walk the zombie'
+// })
+
+/*Or chaining by omitting the double ref to newNotesRef */
+// let newNoteRef = notesRef.push().set({
+//   text: 'Walk the zombie#2'
+// })
+// console.log('Key: todo id: ', newNoteRef.key) // undefined??? wdf
+
+
+/*adding a children to obj, cb to do something in case*/
+notesRef.on('child_added', (snapshot) => {
+  console.log('child added ', snapshot.key, snapshot.val())
+})
+/*Child changing-removing observer, real time data flow app-db*/
+notesRef.on('child_changed', (snapshot) => {
+  console.log('child changed ', snapshot.key, snapshot.val())
+})
+notesRef.on('child_removed', (snapshot) => {
+  console.log('child removed ', snapshot.key, snapshot.val())
+})
+
+
+/*or passing as arg*/
+// let newNoteRefAgian = notesRef.push({
+//   text: 'Run the zombie#3'
+// })
+// console.log('Key: todo id: ', newNoteRefAgian.key)
+
+/*Using TodosRef*/
+todosRef.on('child_added', (snapshot) => {
+  console.log('child added ', snapshot.key, snapshot.val())
+})
+
+let newTodosRef = todosRef.push({
+  text: "this is todo numero 1"
+})
+console.log('Key: todo id: ', newTodosRef.key)
