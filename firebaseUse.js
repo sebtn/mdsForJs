@@ -169,8 +169,10 @@ notesRef.on('child_removed', (snapshot) => {
 // console.log('Key: todo id: ', newNoteRefAgian.key)
 
 /*Using TodosRef*/
+
+/*Using TodosRef*/
 todosRef.on('child_added', (snapshot) => {
-  console.log('child added ', snapshot.key, snapshot.val())
+  console.log('child added: ', snapshot.key + '\n' +  "object is: " , snapshot.val())
 })
 
 let newTodosRef = todosRef.push({
