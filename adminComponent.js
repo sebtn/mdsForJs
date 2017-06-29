@@ -1,13 +1,13 @@
 import React, {component} from 'react'
 
-let isAdmin = false
+let isAdmin = true
 let adminComponent = (Component) => {
   return class Admin extends Component {
     render() {
       if(isAdmin) {
         return (
           <div>
-            testing component text
+            <p>Private admin info</p>
             <Component {...props}/> 
           </div>
         )
