@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<title>9.html</title>
+</head>
+<body>
+<h1>Hi im 9</h1>
+<p id="hello"> </p>
+<form action="">
+  <input id="typeit"  value="Send message" />
+  <button id="sendit" >Hit me</button>
+</form>
+<section >
+  <h3>Sever output here</h3>
+  <div id="msgs"></div>
+</section>
+<script src='/socket.io/socket.io.js'></script>
+<script>
+var socket = io.connect("/")
+socket.on('connect', () => {
+  console.log('connected!')
+})  
+socket.on('disconnect', () => {
+  console.log('dis-connected!')
+})
+socket.on('hello', (num) => {
+  document.getElementById('hello').innerHTML = 'hi ' + num
+})
+
+socket.on("msgs", (msg) => {
+  document.getElementById('msgs').innerHTML += msg + "<br>"
+})
+
+document.getElementById('sendit')
+.addEventListener('click', (evt) => {
+  evt.preventDefault()
+  var msg = document.getElementById('typeit').value
+    if(msg){
+      socket.emit('typeit', msg)
+      document.getElementById('msgs').innerHTML += msg + "<br>"
+      document.getElementById('typeit').value = ''
+    }          
+}, false)
+</script>
+</body>
+</html>
