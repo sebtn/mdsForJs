@@ -68,3 +68,36 @@ const newCat = Object.create(ignu)
 newCat.color = (c) => console.log("is my color", c + '?') 
 newCat.color('green')
 
+// Built a logger object 
+/*---------------------------------------------------------------------*/
+let logger = {
+  callAndLogToo: function(someFun) {
+    console.log(someFun)
+  }
+}
+
+const double = x => x*x
+const addToo = (a, b) => a + b
+logger.callAndLogToo(addToo(5,500))
+
+/*---------------------------------------------------------------------*/
+
+/*Complicated way, try to avoid, just to copare*/
+let callAnddLog = (someFunc) => {
+  return function () {
+    let response = someFunc.apply(undefined, arguments)
+    console.log('Result', response)
+    return response
+  }
+}
+console.log( add(100, 1) ) 
+
+let add = (a, b) => a + b
+let addAndLog = callAnddLog(add)
+addAndLog(100, 200)
+
+
+let square = (a) => a * a
+let squareAndLog = callAnddLog(square)
+squareAndLog(5)
+
