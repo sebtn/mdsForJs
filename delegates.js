@@ -9,10 +9,12 @@ let Me = {
   }
 }
 
+/*---------------------------------------------------------------------*/
 Me.printName() //seb
 setTimeout(Me.printName , 2500)// undef
 setTimeout(Me.printName.bind(Me) , 1000) //seb, binding callback to obj
 
+/*---------------------------------------------------------------------*/
 let SomeOther = Object.create(Me)
 SomeOther.speak = (p) => console.log('This is args passing', p)
 SomeOther.speak2 = (printName) => console.log('Alert String printName')
@@ -20,6 +22,7 @@ SomeOther.speak('Sebastian') // sebastian
 SomeOther.printName('otherName not Seb') // sebastian 
 SomeOther.printNameTwo( (you) => this.you ) 
 
+/*---------------------------------------------------------------------*/
 aGirl = Object.create(SomeOther)
 // point to Sebastian thru SomeOther 
 // but available inside others object
@@ -28,8 +31,35 @@ aGirl.speak2('aGirl from a using speak2') //aGirl
 aGirl.printName(this) // My name is Seb 
 aGirl.printName('Using someOther girl name') // My name is Seb 
 
+/*---------------------------------------------------------------------*/
 let so = SomeOther['name']
 console.log('so:' +  so) //Points to Seb
-
 console.log('Me:' +  Me) //[Object: Object]
 console.log('someOtherr:' +  SomeOther) //[Object: Object]
+
+/*---------------------------------------------------------------------*/
+const a = 'a'
+const b = 'b' 
+const some_A = {a}  
+const some_B = {b}
+const some_C = Object.assign({}, some_A, some_B)
+
+console.log(some_C)
+
+const makeUser = ({
+  name = "A made user",
+  url = " some/thing/here.url",
+  avatar = "ohter/here.gif"
+}) => ({
+  name,
+  url, 
+  avatar
+})
+
+const ignu = makeUser({
+  name: "Ignu",
+  url: "http://somethingShiny.shiny.com",
+  avatar: "avatar/route.png"
+})
+
+console.log(ignu)
