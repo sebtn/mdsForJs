@@ -9,13 +9,15 @@
   double(x:number => number)
 */
 const double = x => x * x
+const addTwo = x => x + 2
 /*
 Luckily for us, JavaScript has first class functions.
 Just like numbers, strings, or objects, functions can be:
 1. Assigned as an identifier (variable) value
 2. Assigned to object property values
 3. Passed as arguments
-4. Returned from functions (Eric Elliott)
+4. Returned from functions 
+(Eric Elliott)
 */
 
 /*------------------------------------------------------*/
@@ -68,3 +70,50 @@ const reduce = (reducer, initial, arr) => {
 
 console.log( reduce((acc, curr) => acc + curr, 0, [1,5,15]) )
 reduce((acc, curr) => acc + curr, 0, [1,5,15]) //21
+
+// Filtering using reduce
+/*------------------------------------------------------*/
+const filterOne = (
+  fn, arr // here fn is called predicate
+) => reduce((acc, curr) => fn(curr) ?
+  acc.concat([curr]) :
+  acc, [], arr 
+)
+
+const filterToo = (fn, arr) =>  arr.reduce((newArr, item) => {
+  return fn(item) ? newArr.concat([item]) : newArr 
+}, [])
+
+/*------------------------------------------------------*/
+const silence = words => filterOne(
+  word => word.length !== 3,
+  words
+)
+
+console.log( silence(['some', 'are', 'be', 'g']) ) //[ 'some', 'be', 'g' ]
+
+/*------------------------------------------------------*/
+const startsWithOtherS = words => filterOne(
+  word => word.startsWith('s'),
+  words
+)
+
+console.log( startsWithOtherS(['son', 'silly', 'new']) ) //[ 'son', 'silly' ]
+
+/*------------------------------------------------------*/
+const mapToo = (fn, arr) => arr.reduce((acc, item, index, arr) => {
+  return acc.concat(fn(item, index, arr)) 
+}, [])
+
+// your data is a list of functions? Compose them.
+/*------------------------------------------------------*/
+const compose = (...fns) => x => fns.reduceRight( (v,f) => f(v), x )
+
+const doubleAddTwo = compose(
+  double,
+  addTwo
+)
+
+console.log(doubleAddTwo(126))
+
+/*------------------------------------------------------*/
