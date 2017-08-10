@@ -46,6 +46,8 @@ const some_C = Object.assign({}, some_A, some_B)
 
 console.log(some_C)
 
+// Using a function as boilerplate
+/*---------------------------------------------------------------------*/
 const makeUser = ({
   name = "A made user",
   url = " some/thing/here.url",
@@ -62,4 +64,7 @@ const ignu = makeUser({
   avatar: "avatar/route.png"
 })
 
-console.log(ignu)
+const newCat = Object.create(ignu)
+newCat.color = (c) => console.log("is my color", c + '?') 
+newCat.color('green')
+
