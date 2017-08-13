@@ -2,6 +2,8 @@
  Composition law: 
  F.map( x=>f(g(x)) ) === F.map(g).map(f) 
 */
+const double = x => x * x
+const addTwo = x => x + 2
 const z = [1, 5, 13] 
 /*------------------------------------------------------*/
 const Identity = value => ({
@@ -30,7 +32,7 @@ const Identity = value => ({
 
 Object.assign(Identity, {
   toString: () => 'Identity',
-  is: x => typeof.map === 'function'
+  is: x => typeof map === 'function'
 })
 /*------------------------------------------------------*/
 let Tracer = {
@@ -66,10 +68,33 @@ const arrOne = [6,7, ...Identity(8)] // cause of the iterator
 tracer(arrOne)
 
 /*------------------------------------------------------*/
-cosnt fRange = (
+const fRange = (
   start,
   end
 ) => Array.from(
-  {length: end -start + },
+  {length: end - start + 1},
   (x, i) => start.constructor(i + start)
 )
+
+/*------------------------------------------------------*/
+const exists = x => (x.valueOf() !== undefined && x.valueOf() !== null)
+const ifExists = x => ({ map: fn => exists(x) ? x.map(fn) : x })
+
+ifExists(Identity(2))
+  .map(double)
+  .map(g)
+  .map(tracer) //16
+
+/*------------------------------------------------------*/
+// Recursive
+const curry = (
+  f, arr = []
+) => (...args) => (
+  a => a.length === f.length ? 
+  f(...a) : 
+  curry(f, a)
+)([...arr, ...args])
+
+/*------------------------------------------------------*/
+  const map = curry((fn, F) => F.map(fn))
+  const mDouble = map(double)
