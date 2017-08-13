@@ -117,3 +117,11 @@ const doubleAddTwo = compose(
 console.log(doubleAddTwo(126))
 
 /*------------------------------------------------------*/
+const uniqueArray = (arr) => {
+  let j = {}
+  arr.forEach(v => {
+    j[v + '::' + typeof v] = v
+  })
+  return Object.keys(j).map(x => j[x])
+}
+console.log(uniqueArray([1,1,1,2,2,3,3,3,4,4,4,5]) )
