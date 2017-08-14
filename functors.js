@@ -98,3 +98,41 @@ const curry = (
 /*------------------------------------------------------*/
   const map = curry((fn, F) => F.map(fn))
   const mDouble = map(double)
+
+ /*------------------------------------------------------*/ 
+  const flying = o => {
+  let isFlying = false;
+  return Object.assign({}, o, {
+    fly () {
+      isFlying = true
+      return this
+    },
+    isFlying: () => isFlying,
+    land () {
+      isFlying = false
+      return this
+    }
+  })
+}
+const bird = flying({});
+console.log( bird.isFlying() ) // false
+
+const quacking = quack => o => Object.assign({}, o, {
+  quack: () => quack
+})
+const quacker = quacking('Quack!')({})
+console.log( quacker.quack() )// 'Quack!'
+console.log( bird.fly().isFlying() ) // true
+
+const createDuck = quack => quacking(quack)(flying({}))
+const duck = createDuck('Quack!')
+console.log(duck.fly().quack())
+
+const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x)
+
+const createDuck = quack => pipe(
+  flying,
+  quacking(quack)
+)({})
+const duck = createDuck('Quack!')
+console.log(duck.fly().quack())
