@@ -53,25 +53,24 @@ console.log(result)
 // Either
 const Right = x => 
 ({
-	.map: f=> Rigth(f(x)),
-	fold: (f,g) => g(x)
-	inspect: () => `Right(${x})` 
-
+	.map: f => Rigth(f(x)),
+	.fold: (f,g) => g(x),
+	.inspect: () => `Right(${x})`
 })
+
 // Or
 const Left = x => 
 ({
-	.map: f=> Left(x),
-	.fold: (f, g) => f(x)
-	inspect: () => `Left(${x})`
-
+	.map: f => Left(x),
+	.fold: (f,g) => f(x),
+	.inspect: () => `Left(${x})`
 })
 
 //----------------------------------------------------------
 const res =  List.of(125,12,3)
 		.fold(Sum, fold(Sum(empty))
 
-const = consolo = (x) => console.log(x)
+const consolo = (x) => console.log(x)
 
 //----------------------------------------------------------
 // fold pull the triger on execution, nothing happens
@@ -79,8 +78,8 @@ const = consolo = (x) => console.log(x)
 
 const lazyBox = g =>
 ({
-	fold: f => f( g() ), // one layer of lazyBox
-	map : f => lazyBox( () => f(g()) )
+	.fold: f => f( g() ), // one layer of lazyBox
+	.map : f => lazyBox( () => f(g()) )
 })
 
 const resultToo = lazyBox(() => '64')
