@@ -175,8 +175,42 @@ const M = Box('Much magic')
 const resultOne2 = join(Box.of(M)) // Box('Much magic')
 const resultTwo2 = join(M.map(Box.of))  // Box('Much magic')
 
+//----------------------------------------------------------
 // Define other map method on monads using chain
 
 // from to
 m.chain(x => f(x)) 
 m.chain(x => M.of(f(x))) // put value back on the type
+
+const final = Box(add = x => y => x + y).ap(Box(2))ap.(Box(3)) // box(5)
+
+const add = x => y => x + y
+const final = Box(add).ap(Box(2))ap.(Box(3)) // box(5)
+
+//----------------------------------------------------------
+// F(x.map) == F(f).ap(F(x))
+// ap: b2 => b2.map(x)
+// 
+const liftA2 = (f, fx, fy) => // args are f fucntion and functors fx and fy
+	// F(f).ap(fx).ap(fy)
+	fx.map(f).ap(fy) // no functors very generic
+
+const newRes = liftA2(add, Box(6), Box(6)) // Box(12)
+
+const $ = selector => 
+	Either.of({selector, height: 10})
+
+const getScreenSize = screen => head => foot =. 
+	screen - (head.height + foot.height)
+
+const resolved = Either.of(getScreenSize(800))
+						.ap($('header'))
+						.ap($('footer'))
+
+consolo(resolved) 
+$('header').chain(head => 
+	$('footer').map(footer => 
+		getScreenSize(800, header, footer)))
+
+// using lift
+const liftResolved = liftA2(getScreenSize(800), $('header'), $('footer'))
