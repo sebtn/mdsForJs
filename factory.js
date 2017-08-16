@@ -147,3 +147,36 @@ const res3 = Box('crayons')
 		.map(id)
 
 const res4 = id(Box('crayons'))
+
+//----------------------------------------------------------
+// Monad have .chain method
+// and F.typeOf => ( flatMap )
+// a way to check if monad or not
+
+httpGet('/user') //Task:user
+.chain(user => 
+	httpGet(`/comments/${user.id}`) //Task:Comments
+	.chain(comments => 
+		updateDOM(user, comments) )) //Task(Task(Task(DOM)))
+
+const join = m => 	
+	m.chian(x =>x)
+
+// join(m.map(join)) == join(join(m)) // associativity: LAW 1 functors
+const m = Box(Box(Box(5)))
+
+const resultOne1 = join(m.map(join)) // Box(5)
+const resultTwo2 = join(join(m))  // Box(5)
+
+// join(F.of(M)) == join(M.map(F.of)) => for any F functor
+// join(Box.of(M)) == join(M.map(Box.of)) => Using Box as Type of F
+
+const M = Box('Much magic')
+const resultOne2 = join(Box.of(M)) // Box('Much magic')
+const resultTwo2 = join(M.map(Box.of))  // Box('Much magic')
+
+// Define other map method on monads using chain
+
+// from to
+m.chain(x => f(x)) 
+m.chain(x => M.of(f(x))) // put value back on the type
