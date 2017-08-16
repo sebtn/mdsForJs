@@ -5,6 +5,7 @@ import fs from 'fs'
 
 const Box = x =>
 ({
+	ap: b2 => b2.map(x),
 	map: f => Box(f(x)),
 	fold:  f => f(x),
 	inspect:  () => `Box(${x})`
@@ -189,8 +190,15 @@ const final = Box(add).ap(Box(2))ap.(Box(3)) // box(5)
 
 //----------------------------------------------------------
 // F(x.map) == F(f).ap(F(x))
-// ap: b2 => b2.map(x)
-// 
+
+/*const Box = x =>
+({
+	ap: b2 => b2.map(x), // just added in Object.create()
+	map: f => Box(f(x)),
+	fold:  f => f(x),
+	inspect:  () => `Box(${x})`
+})*/
+ 
 const liftA2 = (f, fx, fy) => // args are f fucntion and functors fx and fy
 	// F(f).ap(fx).ap(fy)
 	fx.map(f).ap(fy) // no functors very generic
@@ -200,12 +208,12 @@ const newRes = liftA2(add, Box(6), Box(6)) // Box(12)
 const $ = selector => 
 	Either.of({selector, height: 10})
 
-const getScreenSize = screen => head => foot =. 
+const getScreenSize = screen => head => foot =>
 	screen - (head.height + foot.height)
 
 const resolved = Either.of(getScreenSize(800))
-						.ap($('header'))
-						.ap($('footer'))
+		.ap($('header'))
+		.ap($('footer'))
 
 consolo(resolved) 
 $('header').chain(head => 
