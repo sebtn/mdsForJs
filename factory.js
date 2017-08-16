@@ -60,3 +60,28 @@ const Left = x =>
 	inspect: () => `Left(${x})`
 
 })
+
+//----------------------------------------------------------
+
+const {Map, List} from 'inmutable-ext"
+const {Sum} from 'file/containing/Sum'
+
+const res =  List.of(125,12,3)
+		.fold(Sum, fold(Sum(empty))
+
+//----------------------------------------------------------
+// fold pull the triger on execution
+
+const lazyBox = g =>
+({
+	fold: f => f(g()),
+	map: lazyBox( () => f(g()) )
+})
+
+const resultToo = lazyBox(() => '64')
+		.map(s => s.trim())
+		.map(trimmed => new Number(trimmed))
+		.map(num => num + 1)
+		.map(x => String.fromCharCode(x))
+		.fold(x => x.toLowerCase())
+console.log(resultToo)
