@@ -1,3 +1,8 @@
+import {Map, List} from 'inmutable-ext"
+import {Sum} from 'file/containing/Sum'
+import Task from 'data.task'
+import fs from 'fs'
+
 const Box = x =>
 ({
 	map: f => Box(f(x)),
@@ -52,7 +57,7 @@ const Right = x =>
 	inspect: () => `Right(${x})` 
 
 })
-
+// Or
 const Left = x => 
 ({
 	.map: f=> Left(x),
@@ -62,20 +67,19 @@ const Left = x =>
 })
 
 //----------------------------------------------------------
-
-const {Map, List} from 'inmutable-ext"
-const {Sum} from 'file/containing/Sum'
-
 const res =  List.of(125,12,3)
 		.fold(Sum, fold(Sum(empty))
 
+const = consolo = (x) => console.log(x)
+
 //----------------------------------------------------------
-// fold pull the triger on execution
+// fold pull the triger on execution, nothing happens
+// until the last .fold purity by being lazy
 
 const lazyBox = g =>
 ({
-	fold: f => f(g()),
-	map: lazyBox( () => f(g()) )
+	fold: f => f( g() ), // one layer of lazyBox
+	map : f => lazyBox( () => f(g()) )
 })
 
 const resultToo = lazyBox(() => '64')
@@ -84,4 +88,62 @@ const resultToo = lazyBox(() => '64')
 		.map(num => num + 1)
 		.map(x => String.fromCharCode(x))
 		.fold(x => x.toLowerCase())
+
 console.log(resultToo)
+
+//----------------------------------------------------------
+const app = () => 
+	fs.readFile('config.json', 'utf-8', (err, contents) => {
+	if(err) throw err
+
+	const newContents = contents.replace(/8/g,'6')
+
+	fs.writeFile('config.json', newContents, (err, _) => {
+		(if err) throw err
+		console.log('success!')
+	})
+})
+
+// refactor factory
+const readFile = (filename, enc) =>
+	new Task((rej, res) =>
+		fs.readFile(filename, enc, (err, contents) =>
+			err ? rej(err) : res(contents)))
+
+const writeFile = (filename, enc) =>
+	new Task((rej, res) =>
+		fs.writeFile(filename, enc, (err, success) =>
+			err ? rej(err) : res(success)))
+
+const appToo = // does not have to be a fucn
+	readFile('config.json', 'utf-8')
+	.map(contents => contents.replace(/8/g,'6'))
+	.chain(contents => writeFile('config,json', contents)) // return ahnother task so use chain
+
+app().fork
+(
+	consolo(e),
+	x => consolo('success')
+)
+
+//----------------------------------------------------------
+// Function composition
+// fx.map(f).map(g) == fx.map( x => g(f(x)) ) Fisrt law must be true for functors
+
+// Using boxes
+// res1 == res2
+const res1 = Box('DrBigDragons')
+		.map(s => s.substring(3))
+		.map(s => stoUpperCase())
+
+const res2 = Box('DrBigDragons')
+		.map(s => s.substring(3). stoUpperCase())
+
+// fx.map(id) == id(x) second law must hold true for functors
+// res3 == res4
+const id = x => x
+
+const res3 = Box('crayons')
+		.map(id)
+
+const res4 = id(Box('crayons'))
