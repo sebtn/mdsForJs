@@ -1,4 +1,4 @@
-import {Map, List} from 'inmutable-ext"
+import {Map, List} from 'inmutable-ext'
 import {Sum} from 'file/containing/Sum'
 import Task from 'data.task'
 import fs from 'fs'
