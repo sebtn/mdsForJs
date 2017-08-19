@@ -158,3 +158,81 @@ function child (spec) {
 // usage
 var res = child(name: 'Some functional object')
 console.log(res.sayHi()) // 'Hi, my name is some functional objects'
+
+// FUNCTIONAL MIXINS
+//--------------------------------------------------------------------------
+// You may be tempted to create functional mixins designed to work together. 
+// configuration manager for your app that logs warnings when you 
+// try to access configuration properties that don’t exist.
+const withLogging = logger => o => Object.assign({}, o, {
+	log(text){
+		logger(text)
+	}
+})
+
+//somewhere else in the app, in different module 
+// with no explicit mention of withLogging
+const withConfig = config => (o = {
+	log(text = '') => console.log(text)
+}) => Object.assign({}, o, {
+get(key) {
+	return config[key] == undefined ? this.log(`Missing config key: ${key}`) : // implicit dependency here
+		config [key]
+	}  
+})
+
+// elsewhere in app
+// in yet another module that imports withLogging and
+// withConfig
+const createConfig = ({initialConfig, logger}) =>
+	pipe(
+		withlogging(logger),
+		withConfig(initialConfig)
+	)({})
+
+// elsewhere
+const initialConfig = {
+	host: 'localhost'
+}
+
+const logger = console.log.bind(console)
+console.log(config.get('host')) // loclahost
+console.log('notThere') // Missing config key: noThere
+
+//--------------------------------------------------------------------------
+// how ever it can also be built like this
+// importing explictly withLoggin()
+import withLogging from './with-logging'
+
+const addConfig = config => o => Object.assign({}, o, {
+	get(key) {
+		return config[key] == undefined ?
+			this.log(`Missing config key: ${key}`) : 
+			config[key]
+	}
+})
+
+const withConfig = ({initialConfig, logger}) => o => 
+	pipe(
+	withLogging(logger), // explicit dependency here
+      	addConfig(initialConfig)
+	)(o)
+
+// tha feactory only knows about withConfig now
+const createConfig = ({intialConfig, logger}) => 
+	wothConfig({initialConfig, logger})({})
+
+// elsewhere
+const initialConfig = {
+	host: 'localhost'
+}
+
+const logger = console.log.bind(console)
+console.log(config.get('host')) // loclahost
+console.log('notThere') // Missing config key: noThere
+
+// ERIC ELLIOT SAID IT:\
+// Functional mixins are composable factory functions which add properties and 
+// behaviors to objects like stations in an assembly line. They are a great way to 
+// compose behaviors from multiple source features (has-a, uses-a, can-do),
+// as opposed to inheriting all the features of a given class (is-a).
