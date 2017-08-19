@@ -136,3 +136,25 @@ const createDuck = quack => pipe(
 )({})
 const duck = createDuck('Quack!')
 console.log(duck.fly().quack())
+
+//----------------------------------------------------------
+// this is the same as classsical inheretance
+// so you DON'T want it
+// base object factory
+function base(spec) {
+	vat that = {}
+	that.name = spec.name // add .name prop
+	return that
+}
+
+// construction of a child obj, inheretance from 'base'
+function child (spec) {
+	var that = base(spec) // using the 'constructor'
+	that.sayHi = function() {
+		return 'Hi, my name is ' +  that.name
+	}
+}
+
+// usage
+var res = child(name: 'Some functional object')
+console.log(res.sayHi()) // 'Hi, my name is some functional objects'
