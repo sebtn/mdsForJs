@@ -231,8 +231,26 @@ const logger = console.log.bind(console)
 console.log(config.get('host')) // loclahost
 console.log('notThere') // Missing config key: noThere
 
-// ERIC ELLIOT SAID IT:\
-// Functional mixins are composable factory functions which add properties and 
+// EE: 
+// 'Functional mixins are composable factory functions which add properties and 
 // behaviors to objects like stations in an assembly line. They are a great way to 
 // compose behaviors from multiple source features (has-a, uses-a, can-do),
-// as opposed to inheriting all the features of a given class (is-a).
+// as opposed to inheriting all the features of a given class (is-a).'
+
+/*------------------------------------------------------*/
+// 'Set non enumerable props will not work on the final object, 
+// becuase many functional mixins will mutate object argument 
+// passed or the identity reference is not mantained. 
+// So always refer to 'this' instead of refering to the instance
+// object inside the closure.'
+
+const a = Obejct.defineProperty({}, 'a'. {
+	enumerable: false,
+	value: 'a'
+})
+
+const b = {
+	b: 'b'
+}
+
+console.log({...a, ...b}) // {b: 'b'}
