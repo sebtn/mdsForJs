@@ -254,3 +254,11 @@ const b = {
 }
 
 console.log({...a, ...b}) // {b: 'b'}
+
+/*------------------------------------------------------*/
+const noop = () => {some: thing}
+console.log(noop()) // undefined
+
+// disambiguate by wrapping the object literal in parentheses
+const createThing = () => ( {some: thing} ) 
+console.log(createThing()) // {some: "thing"}
