@@ -111,4 +111,74 @@ const highPass = cutoff => n => n >= cutoff
 const get15 = highPass(15)(5)
 Logger.callAndLogToo(get15)
 
+/*---------------------------------------------------------------------*/
+// try not to use classes or the new kyword because, 
+// the [[prototype]] chain gets disrupted
 
+class User {
+  constructor({userName, avatar}) {
+    this.useName = userName
+    this.avatar = avatar
+  }
+}
+
+const currentUser = new User({
+  userName: "Foo",
+  avatar: 'foo/bar.png'
+})
+
+User.rototype = {}
+
+console.log(currentUser instanceof User, current user) // false
+// {avatar: foo/bar.png, userName: "Foo"}
+//''Absence of the [[Prototype]] link from factory instances will break caller instanceof checks.
+//Absence of the .constructor property from factory instances could break code that relies on it.'' E.E
+/*---------------------------------------------------------------------*/
+// still disrupting even silently, the problem is the new keyword
+
+const empty = ({constructor} = {}) => constructor ? new constructor() : undefined
+const foo = [10]
+console.log(empty(foo)) // [] works!
+
+// However... Using promises
+const empty = ({constructor} = {}) => constructor ? new constructor : undefined
+const bar = Promise.resolve(10)
+console.log(empty(bar)) // [TypeError: Promise resolver undefined is not a function]
+
+// using constructor.of() insted of new constructor is not safe yet
+// will return undefined for promises 
+
+/*---------------------------------------------------------------------*/
+// The correct way is to use a factory to add support for constructor and .of()
+
+const createUser = ({
+  userName = "Anon",
+  avatar = '/anon.png'
+} = {}) => ({
+  userName, 
+  avatar,
+  constructor: createUser
+})
+createUser.of = createUser
+
+const empty = ({ constructo } = {}) => constructor.of ? constructor.of() : undefined
+const Foo = createUser({userName: 'Empty', avatar: 'Me.png'})
+console.log(empty(Foo),// {avatar: "anon.png", userName: "Anon"}
+Foo.constructor === createUserof, // true and check deep equality 
+createUser.of === createUser) // true deep  eq 
+
+/*---------------------------------------------------------------------*/
+// The correct way is to use a factory to add support for constructor and .of()
+// using Object.assign is way better form to make non enumerables props
+
+const createUser = ({
+  userName = "Anon",
+  avatar = '/anon.png'
+} = {}) => Object.assign(
+  Obecjt.create({
+  constructor: createUser
+  }), {
+    userName, 
+    avatar,
+  }
+)
