@@ -53,3 +53,17 @@ const t = value => {
 // "OK: a value t(x) composed with t(0) ==== t(x)"
 // "OK: a value t(x) composed with t(1) ==== t(x + 1)"
 
+const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x)
+const sumT = (...fns) => pipe(...fns)(t(0))
+
+sumT(
+  t(2),
+  t(4),
+  t(-1)
+).valueOf() // 5
+
+const result = composwe(
+  value1, 
+  value2,
+  value3
+)
