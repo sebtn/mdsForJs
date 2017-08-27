@@ -38,7 +38,7 @@ Rx.Observable.create((obs) => {
 	.subscribe(observer)
 
 // async
-// Rx.Observable.create((obs) => {
+Rx.Observable.create((obs) => {
 	obs.next('A val')
 	obs.error('Error')
 	setTimeout(() => {
@@ -49,3 +49,9 @@ Rx.Observable.create((obs) => {
 	obs.complete() // interruption
 }) 
 	.subscribe(observer)
+
+/*----------------------------------------------------------------*/
+  Rx.Observable.create((obs) => {
+    button.onclick = (event) => obs.next(event) // instead of fromEvent
+}) 
+  .subscribe(observer)
