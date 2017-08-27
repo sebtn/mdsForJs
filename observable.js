@@ -26,3 +26,26 @@ Rx.Observable.fromEvent(button, 'click')
 		(value) => console.log(value.client()) //observer
 	)
 	 
+Rx.Observable.fromEvent(button, 'click')
+	.subscribe(observer)
+
+Rx.Observable.create((obs) => {
+	obs.next('A val')
+	obs.error('Error')
+	obs.next('Some other val')
+	obs.complete() // interruption
+}) 
+	.subscribe(observer)
+
+// async
+// Rx.Observable.create((obs) => {
+	obs.next('A val')
+	obs.error('Error')
+	setTimeout(() => {
+		obs.complete()
+		obs.next('and again!') // never gets printed!
+	} ,  2000 )
+	obs.next('Some other val')
+	obs.complete() // interruption
+}) 
+	.subscribe(observer)
