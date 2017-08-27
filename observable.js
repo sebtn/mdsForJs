@@ -98,7 +98,7 @@ const pingPongEpic = (action$, store) =>
         return state
     }
   }
-// wait 1 second to update
+
 const incrementEpic = (action$, store) => 
   action$.ofType('INCREMENT_DEBOUNCED')
     .debounceTime(500)
@@ -108,3 +108,35 @@ const incrementEpic = (action$, store) =>
   action$.ofType('DECREMENT_DEBOUNCED')
     .debounceTime(500)
     .map(() =>( {type: 'DECREMENT'} ))
+
+/*----------------------------------------------------------------*/
+// auto complete idea Epic
+const autoCompleteEpic = (action$, store) => 
+  action$.ofType("QUERY")
+    .debounceTime(500)
+    .switchMap(action =>
+      ajax('https://api.github.com/search/user/?q=' + value )
+        .map(payload => ({
+          type: "QUERY_FULLFILLED" ,
+          payload
+        }))
+      ) 
+
+/*----------------------------------------------------------------*/
+// auto complete idea Epic and error handler 
+const autoCompleteEpic = (action$, store) => 
+  action$.ofType("QUERY")
+    .debounceTime(500)
+    .switchMap(action => // implicit cancellation 
+      ajax('https://api.github.com/search/user/?q=' + value )
+        .map(payload => ({
+          type: "QUERY_FULLFILLED" ,
+          payload
+        }))
+        .takeUntil(action$.ofType("QUERY_CANCELLED")) // explicit cancel wont prevent re-query
+        .catch(payload => ({
+          type: "QUERY_REJECTED",
+          error: true,
+          payload
+        }))
+      ) 
