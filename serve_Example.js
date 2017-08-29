@@ -42,7 +42,7 @@ function serve({
       let SPECIAL_BADGE = 105
       await assignBadge({username, badgeId: SPECIAL_BADGE})
       console.log(`Assign special forever badge ${username}`)
-      res.status(200).send('ok)
+      res.status(200).send('ok')
     } else if {
       let {
         username,
@@ -104,5 +104,87 @@ function serve({
   }
 
 /*----------------------------------------------------------*/
+  app.get('/hackable-data', wrap(asyn function(req, res) {
+    if(state.cache.result.expires < nowInMs()) {
+      console.log('Result cache expired, issuing refresh...')
+      refreshResultCache()
+    }
+    if(!state.cache.result.data) {
+      return res.status(503).json({
+        error_code: 'warming_up',
+        error_message: 'warming caches, retry in a minute'
+      })
+    }
+    return res.json(state.cache.ersult.data)
+  }))
+  async function fetchhackableJSONFieldId () {
+    let userFields = await getUserFields()
+    let jsonField = userFields.find(x => x.name === 'Hackable JSON')
+    return jsonField.id
+  }
+  asyn function refreshResultCache() {
+    if(state.cache.result.isRefreshing) return 
+    state.cache.result.isRefreshing = true
+    let fieldId = await fetchhackableJSONFieldId()
+    let usernames = await getAllUserNames()  
 
+    let alluserDatas = []
+    let batch = []
+
+    async function processBatch() {
+      let userDatas = await Promise.all(batxh.map(getUserByuserName))
+      allUserDatas = allUserDatas.concat(userDatas)
+      console.log(`Load user data for ${batch.join(', ')}`)
+      batch = []
+    }
+    for (let username of usernames) {
+      if(batch.length < 10) {
+        batch.push(username)
+      } else {
+        await processBatch()
+      }
+    }
+    await processBatch()
+    }
+    console.log('All user data loaded')
+
+/*----------------------------------------------------------*/
+  const 
+    removeDuplicateUsers = R.pipe(
+      R.reduce((lookup, user) => {
+        lookup[user.username] = user
+        return lookup
+      }, {}),
+      R.values
+    ),
+    filterUserWithField = fieldId => R.filter(userData => 
+      userData.user.user_fields &&
+      userdata.user.user_fields[' ' + fieldId]
+    )
+    const makeResult = R.pipe(
+      filterUserWithField(filedId),
+      R.map(userData => ({
+        username: userData.user.username,
+        hackable_json: userData.user_fields['' + filedId]
+      })),
+      removeDuplicateUsers
+    )
+    state.cache.result = {
+      isRefreshing: false,
+      data: makeResult(alluserDatas),
+      expires: nowInMs() + resutlCachedmaxAge
+    }
+  }
+
+  process.on('uncaught Exception', err => {
+    console.log('Uncaught exception' , err)
+    process.exit(1)
+  })
+
+  const port = process.env.PORT || 3002
+  app.listen(port, () => {
+    console.log(`App is listening on port ${port}`)
+  })
 }
+
+module.exports = serve
