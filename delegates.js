@@ -182,3 +182,27 @@ const createUser = ({
     avatar,
   }
 )
+
+/*---------------------------------------------------------------------*/
+const factoryPeps = (name, age, state) => {
+  var temp = {} || []
+  temp.age = age
+  temp.name = name
+  temp.state = state
+  
+  temp.printPerson = () => 
+    console.log(age + ', ' + name + ', ' + state)  
+  
+  return temp
+}
+
+const p1 = factoryPeps('jon', 23, "CA")
+const Kim = factoryPeps('Kim', 35, "NY")
+const Me = factoryPeps("Me", 666, "Qc")
+  
+
+Me.printPerson() //666, Me, Qc
+p1.printPerson() //  23, jon, CA
+Kim.printPerson() //  35, Kim, NY
+
+
