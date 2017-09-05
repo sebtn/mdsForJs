@@ -44,7 +44,7 @@ const connectioToDB = new db.databaseConnection({
 // const userManager = new userManager(connectionToDB) -> remove this line
 
 // great way to abstarct db use
-const createUser = makeCreateUser(connection) 
+const createUser = makeCreateUser(connectionToDB) 
 
 const app = new App(createUser)
 app.start()
