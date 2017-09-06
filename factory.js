@@ -224,7 +224,8 @@ const final = Box(add).ap(Box(2))ap.(Box(3)) // box(5)
 
 /*const Box = x =>
 ({
-	ap: b2 => b2.map(x), // just added in Object.create()
+	ap: b2 => b2.map(x), // just added in Object.create(),
+	chain: f => f(x),
 	map: f => Box(f(x)),
 	fold:  f => f(x),
 	inspect:  () => `Box(${x})`
