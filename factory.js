@@ -158,20 +158,44 @@ const res3 = Box('crayons')
 const res4 = id(Box('crayons'))
 
 //----------------------------------------------------------
-// Monad have .chain method
-// and F.typeOf => ( flatMap )
-// a way to check if monad or not
 
+// lifting val to the type using of
+// place a val into type
+// pop val into type not worry about constructor
+const either = require('../either')
+
+Task.of('hello' ) // Task('hello')
+Either.of('Hi')  // Right('hi')
+Box.of(100) // Box(100)
+
+
+// use the type to map over items
+// if return left .map .chain wont be possible
+Either.of('Hi').map(x => x + '!') 
+
+// Monads 
+// F.of, .chain
+//  create a monadic interface 
+//  flatMap, bind
+// Box, Task, Either, List
+// Monad have .chain method
+// F.typeOf => ( flatMap )is a way to check if monad or not
+
+// run seq program with non determination and return many many results
+// capable to manage concurrence
+// Task(Task(Task(DOM))) imperative seq
 httpGet('/user') //Task:user
 .chain(user => 
 	httpGet(`/comments/${user.id}`) //Task:Comments
 	.chain(comments => 
-		updateDOM(user, comments) )) //Task(Task(Task(DOM)))
+		updateDOM(user, comments) )) // flatten two types into one nest computation
 
-const join = m => 	
+//------------------------------------------------------------------------------------
+// return inner type and that will join them
+const join = m => 
 	m.chain(x =>x)
 
-// join(m.map(join)) == join(join(m)) // associativity: LAW 1 functors
+// join(m.map(join)) == join(join(m)) associativity: LAW 1 functors
 const m = Box(Box(Box(5)))
 
 const resultOne1 = join(m.map(join)) // Box(5)
@@ -186,7 +210,6 @@ const resultTwo2 = join(M.map(Box.of))  // Box('Much magic')
 
 //----------------------------------------------------------
 // Define other map method on monads using chain
-
 // from to
 m.chain(x => f(x)) 
 m.chain(x => M.of(f(x))) // put value back on the type
