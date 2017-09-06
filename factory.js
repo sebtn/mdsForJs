@@ -22,7 +22,7 @@ const percentToFloat = str => {
 //----------------------------------------------------------
 const moneyToFloatV2 = str => 
  return Box(str)
-    .map(s => sstr.replace(/\$/g, '') )
+    .map(s => str.replace(/\$/g, '') )
     .map(r => parseFloat(r) )
 
 //----------------------------------------------------------
@@ -87,11 +87,15 @@ const resultToo = lazyBox(() => '64')
 		.map(trimmed => new Number(trimmed))
 		.map(num => num + 1)
 		.map(x => String.fromCharCode(x))
-		.fold(x => x.toLowerCase())
+		.fold(x => x.toLowerCase()) // fold is the trigger, purity
 
 console.log(resultToo)
 
 //----------------------------------------------------------
+// read file, replace some contents and write out a new version
+// useful pattern for thing that have side effects http , login,
+// use it to make those things composable
+
 const app = () => 
 	fs.readFile('config.json', 'utf-8', (err, contents) => {
 	if(err) throw err
@@ -115,11 +119,16 @@ const writeFile = (filename, enc) =>
 		fs.writeFile(filename, enc, (err, success) =>
 			err ? rej(err) : res(success)))
 
-const appToo = // does not have to be a fucn
+// --------------------------------------------------------------------
+// pure way
+// does not have to be a fucn beacause useing task so reuse taks or create new one (no arrow func)
+
+const appToo = 
 	readFile('config.json', 'utf-8')
 	.map(contents => contents.replace(/8/g,'6'))
-	.chain(contents => writeFile('config,json', contents)) // return ahnother task so use chain
+	.chain(contents => writeFile('config,json', contents)) // return another task so use chain
 
+//----------------------------------------------------------
 app().fork
 (
 	consolo(e),
@@ -160,7 +169,7 @@ httpGet('/user') //Task:user
 		updateDOM(user, comments) )) //Task(Task(Task(DOM)))
 
 const join = m => 	
-	m.chian(x =>x)
+	m.chain(x =>x)
 
 // join(m.map(join)) == join(join(m)) // associativity: LAW 1 functors
 const m = Box(Box(Box(5)))
@@ -221,3 +230,21 @@ $('header').chain(head =>
 
 // using lift
 const liftResolved = liftA2(getScreenSize(800), $('header'), $('footer'))
+
+//----------------------------------------------------------
+//Using TASK
+
+const lauchMissiles = () =>
+	new Task((rej, res) => {
+		console.log('Boom!')
+		res('Missile!')
+	})
+
+const app = launchMissiles().map(x => x + '!') 
+// launch missiles!
+// launch missiles!!
+
+//keep extending things ands composing
+// like a second exclamation
+app.map(x => x + '!').fork(e => console.log('err', e),
+			   x => console.log('success', x))
