@@ -220,7 +220,7 @@ const add = x => y => x + y
 const final = Box(add).ap(Box(2))ap.(Box(3)) // box(5)
 
 //----------------------------------------------------------
-// F(x.map) == F(f).ap(F(x))
+// F(x).map(f) === F(f).ap(F(x))
 
 /*const Box = x =>
 ({
@@ -232,14 +232,30 @@ const final = Box(add).ap(Box(2))ap.(Box(3)) // box(5)
 })*/
  
 const liftA2 = (f, fx, fy) => // args are f fucntion and functors fx and fy
-	// F(f).ap(fx).ap(fy)
-	fx.map(f).ap(fy) // no functors very generic
+	fx.map(f).ap(fy) // no functors very generic F(f).ap(fx).ap(fy)
 
 const newRes = liftA2(add, Box(6), Box(6)) // Box(12)
+const oldRes = Box(add).ap(box(2)).ap(Box(4)) // Box(6)
 
+const liftA3 = (f, fx, fy, fz) => // args are f fucntion and functors fx and fy, fz
+	fx.map(f).ap(fy).ap(fz) // no functors very generic F(f).ap(fx).ap(fy).ap(fz)
+
+const newRes2 = liftA2(add, Box(6), Box(6), Box(6)) // Box(18)
+const oldRes2 = Box(add).ap(box(2)).ap(Box(4), Box(6)) // Box(12)
+
+//-------------------------------------------------------------
+// JQuery stub, thinks taks instead in real life
+// facotries ahead
+
+// sequencial
+consolo(resolved) 
+$('header').chain(head => 
+	$('footer').map(footer => 
+		getScreenSize(800, header, footer)))
 const $ = selector => 
 	Either.of({selector, height: 10})
 
+// applicative is ideal fo NON seq stuff
 const getScreenSize = screen => head => foot =>
 	screen - (head.height + foot.height)
 
@@ -247,12 +263,7 @@ const resolved = Either.of(getScreenSize(800))
 		.ap($('header'))
 		.ap($('footer'))
 
-consolo(resolved) 
-$('header').chain(head => 
-	$('footer').map(footer => 
-		getScreenSize(800, header, footer)))
-
-// using lift
+// using lift as different syntax applicative functors
 const liftResolved = liftA2(getScreenSize(800), $('header'), $('footer'))
 
 //----------------------------------------------------------
@@ -272,3 +283,39 @@ const app = launchMissiles().map(x => x + '!')
 // like a second exclamation
 app.map(x => x + '!').fork(e => console.log('err', e),
 			   x => console.log('success', x))
+
+//--------------------------------------------------------------
+//inmutable list
+const {list} = require('inmmutable-ext')
+
+//2d or 3d or more array with no loops
+const merch = () =>
+	List.of(x => y => z => `${x}-${y}-${z}`)
+	.ap(list(['el1', 'el2']))
+	.ap(list(['sm1', 'sm2', 'sm3']))
+	.ap(list(['l1']))
+
+consolo(merch())
+
+//--------------------------------------------------------------
+// using task for current actions
+cosnt Db = ({
+	find: id => 
+		new Task((rej, res) => 
+			setTimeout(() => 
+				res( {id: id, title: `Project ${id}`} , 100))
+}) 
+
+// Syncronous non concurrence 
+const reportHeader = (p1, p2) =>
+	`Report: ${p1.title} compared to ${p2.title}`
+Db.find(20).chain(p1 => 
+	Db.find(8).map(p2 => 
+		reportheader(p1, p2)))
+
+// concurrence async
+Task.of(p1 => ps => reportHeader(p1, p2))
+
+.ap(Db.find(20))
+.ap(Db.find(8))
+.fork(console.error, consolo.log)
