@@ -15,7 +15,7 @@ const Box = x =>
 const moneyTofloat = str => parseFloat(str.replace(/\$/g, ''))
 
 const percentToFloat = str => {
-  const replaced = str.str.replace(/\$/g, ''))
+  const replaced = str.replace(/\$/g, ''))
   const number = parseFloat(replaced)
   return number * 0.01
 }
@@ -319,3 +319,66 @@ Task.of(p1 => ps => reportHeader(p1, p2))
 .ap(Db.find(20))
 .ap(Db.find(8))
 .fork(console.error, consolo.log)
+
+//--------------------------------------------------------------
+// data-either data.task fantasy-identites request --save-dev
+// spotify
+const spotify = require('/spotify module')
+const argv = new Task((resj, res) => res(process.argv) )
+const names = arrv.map(args => arg.slice(2))
+
+// data flow 
+const related = (name) =>
+	findArtist(name)
+	.map(artist => artist.id)
+	.chain(spotify.realtedArtisit)
+	.map(artists => artists.map(artist => artist.name) )
+
+const main = ([name1, name2]) =>
+	Task.of(rels1 => rels2 => =. [rels1, rels2] )// async applicative
+	.ap(related(name1))
+	.ap(related(name2))
+
+names.map(main).fork(consolo(error), console.log)
+
+const httpGet = url => 
+	request('http://www.google.com', fucntion(error, response, body) {
+	if(!error && response.statusCode == 200) {
+		consolo(body)
+	}
+})
+
+
+//--------------------------------------------------------------
+// Using Either 
+const first = xs => 
+	Either.fromNullable(xs[0]) // avoids psssing null
+
+const parse = Either.try(JSON.parse)
+
+const getJSON = url => 
+	httpGet(url)
+	.map(parse)
+	.chain(eitherToTask) // Remove either from task
+
+// refactor req
+cosnt httpget = url => 
+	new Task((rej, res) =>
+	request(url, (error, response, body) => 
+		error ? rej : res(body) ))
+
+
+const eitherToTask = e => 
+	e.fold(Task.reject, Task.of)
+
+const findArtist = name =>
+	getJSON(`${Some endpont}`)
+	.map(result => result.artist.items)
+	.map(first)
+
+const relatedArtist = id =>
+	getJSON(`${Some endpont}`)
+	.map(result => result.artist)
+
+
+module.exports = {findArtist, relatedArtist} // exposed to public
