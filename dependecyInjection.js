@@ -99,11 +99,11 @@ const makeUserUtils = ({ connection, mailService }) => ({
   deleteUser :  id =>  
       connection.table('users').delete(id)
 
-    banuser: id => 
-      connection.table('users'.update({
-        $set: { banned: true }
-      })
-      .then(() => mailService('someOne@mail.com', 'Ibannedyou'))
+  banuser: id => 
+    connection.table('users'.update({
+      $set: { banned: true }
+    })
+    .then(() => mailService('someOne@mail.com', 'Ibannedyou'))
 
 })
 
