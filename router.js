@@ -54,7 +54,7 @@ class AboutPage extends Component {
 export default AboutPage
 
 //------------------------------------------
-import toRegex from 'path-to-regexp';
+import toRegex from 'path-to-regexp'
 function matchURI(path, uri) {
   const keys = [];
   const pattern = toRegex(path, keys); // TODO: Use caching
@@ -86,20 +86,21 @@ const toUrlPath = pathToRegexp.compile('/tasks/:id(\\d+)')
 toUrlPath({ id: 123 }) //=> "/user/123"
 
 // On main entry point
-import ReactDOM from 'react-dom';
-import history from './history';
-import router from './router';
-import routes from './routes';
-const container = document.getElementById('root');
+import ReactDOM from 'react-dom'
+import history from './history'
+import router from './router'
+import routes from './routes'
+
+const container = document.getElementById('root')
 function renderComponent(component) {
-  ReactDOM.render(component, container);
+  ReactDOM.render(component, container)
 }
 function render(location) {
   router.resolve(routes, location)
     .then(renderComponent)
     .catch(error => router.resolve(routes, { ...location, error })
-    .then(renderComponent));
+    .then(renderComponent))
 }
-render(history.getCurrentLocation()); // render the current URL
-history.listen(render);               // render subsequent URLs
-toUrlPath({ id: 'abc' }) /=> error, doesn't match the \d+ constraint
+render(history.getCurrentLocation()) // render the current URL
+history.listen(render)              // render subsequent URLs
+toUrlPath({ id: 'abc' }) /=> error, does not match the \d+ constraint
