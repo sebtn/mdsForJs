@@ -243,3 +243,29 @@ miau.said = u => console.log(u.toUpperCase())
 
 miau2.clean = i => console.log(i.replace('i - i', 'YYYY'))
 // console.log( miau.face )
+/*----------------------------------*/
+const barker = (state) => ({
+  bark: () => console.log('Woof!! ' + state.name)
+})
+const killer = (state) => ({
+  kill: () => console.log('kill' + state.kill)
+})
+const driver = (state) => ({
+  drive: () => state.position =  state.position + state.speed
+})
+// barker({name: 'taro'}).bark()
+
+const murdereRobotDog = (name) => {
+  let state = {
+    name,
+    speed: 100,
+    position: 0
+  }
+  return Object.assign(
+  {},
+  barker(state),
+  driver(state), 
+  killer(state)
+  )
+}
+murdereRobotDog('DoggyBag').bark()
