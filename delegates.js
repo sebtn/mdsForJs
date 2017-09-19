@@ -73,7 +73,7 @@ const makeUser = ({
   name = "A made user",
   url = " some/thing/here.url",
   avatar = "ohter/here.gif"
-}) => ({
+} = {}) => ({
   name,
   url, 
   avatar
@@ -205,4 +205,41 @@ Me.printPerson() //666, Me, Qc
 p1.printPerson() //  23, jon, CA
 Kim.printPerson() //  35, Kim, NY
 
+const makeUser = () => {
+  const name   = 'Blondie'
+  const url    = 'Somewhreinweb.com'
+  const avatar = 'trippy'
+  
+  return { 
+    talk: x => console.log(`speaking now my ${name} and ${url} and ${x}`),
+    namer: (name) => console.log(name),
+    locator: (url) => console.log(url),
+    img: (img) => console.log(avatar)
+  }
+}
 
+// const dog = Object.assign({}, makeUser())
+const dog = makeUser()
+dog.speak = x => console.log(x  , 'hi im speaking from outside the factory') 
+dog.talk('using x as args in call time')
+dog.speak('speak and talk are diff... || ')
+dog.locator()
+dog.img()
+
+const makeCat = ({
+  name = 'cat',
+  face = 'Big',
+  trie = [{el: 'ele'}]  
+} = {}) => ({
+  name,
+  face,
+  trie
+}) 
+const miau2 = Object.create(makeCat)
+const miau = makeCat()
+
+miau.said = u => console.log(u.toUpperCase())
+// miau.said('Hi I was lowercase before this') 
+
+miau2.clean = i => console.log(i.replace('i - i', 'YYYY'))
+// console.log( miau.face )
