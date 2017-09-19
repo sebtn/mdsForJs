@@ -16,11 +16,6 @@ sudo apt-get install code # or code-insiders
     "editor.lineHeight": 30,
     "editor.letterSpacing": 0.5,
     "editor.minimap.maxColumn": 50,
-    "cSpell.userWords": [
-        "bycrypt",
-        "jsondata",
-        "sourcemap"
-    ],
     "emmet.triggerExpansionOnTab": true,
     "editor.snippetSuggestions": "top",
     "emmet.includeLanguages": {
