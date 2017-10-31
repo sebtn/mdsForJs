@@ -1,8 +1,35 @@
 PS1='\[\e[0m\]\[\e[48;5;236m\]\[\e[38;5;197m\]\u\[\e[38;5;197m\]@\[\e[38;5;197m\]\h\[\e[38;5;105m\]
     \[\e[38;5;221m\]\w\[\e[38;5;221m\]\[\e[38;5;105m\]\[\e[0m\]\[\e[38;5;236m\]\342\226\214\342\226\214\342\226\214\[\e[0m\]'
 
-
+==============================================
 PS1="[\[\033[32m\]\w]\[\033[0m\]\$(__git_ps1)\n\[\033[1;36m\]\u\[\033[32m\]$ \[\033[0m\]"
+
+==============================================
+
+# man easier
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+export GREP_OPTIONS='--color=auto'
+
+# soma asliases
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias ll="ls -l"
+alias lo="ls -o"
+alias lh="ls -lh"
+alias la="ls -la"
+alias sl="ls"
+alias l="ls"
+alias s="ls"
 
 #ANSI COLORS CODE
 
@@ -46,7 +73,7 @@ function git_branch {
   fi
 }
 
-PS1="\[$COLOR_YELLOW\]\n Route: [\w]\[$COLOR_LIGHT_CYAN\]\n [\@ -\d] \[$COLOR_LIGHT_GREEN\]\u on "   #base name PWD
+PS1="\[$COLOR_YELLOW\]\n Route: [\w]\[$COLOR_LIGHT_CYAN\]\n [\@ - \d] \[$COLOR_LIGHT_GREEN\]\u\[$COLOR_OCHRE\] ssh:\h on "   #base name PWD
 PS1+="\[\$(git_color)\]"        # colors git status
 PS1+="\$(git_branch)"           # prints current  branch
 PS1+="\[$COLOR_BLUE\]\$\[$COLOR_RESET\] "   # '#' for root, else '$'
