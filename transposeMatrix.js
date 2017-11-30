@@ -12,7 +12,7 @@ const mapStateToProps = state => {
 		'totalFavoriteMultiCredits'
 	]
 	
-	convert columns into rows
+	//convert columns into rows
 	const newState = state.playReports
 	let tableRows = []
 	const rowsLen = newState[columnKeys[0]].length
