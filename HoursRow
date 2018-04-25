@@ -1,0 +1,38 @@
+import React from 'react'
+import {connect} from 'react-redux'
+
+
+export class HoursRow extends React.Component {
+
+  renderTableRow = (data, label) => {
+
+    const padZero = num => num === 0 ? 0 + "0" : num
+
+    const opening = (  !data.isFullDay && data.open  ) ?
+      <b>{padZero(data.open[1]) + ":" + padZero(data.open[2])}</b> :
+      <span className="all-day">{"2 4 H."}</span>
+
+    const closing = ( !data.isFullDay && data.close ) ?
+      <b>{padZero(data.close[1]) + ":" + padZero(data.close[2])}</b> :
+      <span className="all-day">{"next day"}</span>
+
+    return (
+      [
+      <td key={1}><b>{label}</b></td>,
+      <td key={2}><h6>{opening}</h6></td>,
+      <td key={3}><h6>{closing}</h6></td>
+      ]
+    )
+
+  }
+
+  render () {
+    const { hours, label } = this.props
+    return (
+      <tr>
+        {this.renderTableRow(hours, label)}
+      </tr>
+    )
+  }
+
+}
