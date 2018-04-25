@@ -1,0 +1,59 @@
+[
+  {
+    "day": 1,
+    "closed": true,
+    "open": null,
+    "close": null
+  },
+  {
+    "day": 2,
+    "closed": false,
+    "open": {
+      "hours": "1",
+      "minutes": "30"
+    },
+    "close": {
+      "hours": "10",
+      "minutes": "00"
+    }
+  },
+  {
+    "day": 3,
+    "closed": false,
+    "open": null, 
+    "close": null
+  },
+  {
+    "day": 4,
+    "closed": false,
+    "open": null, 
+    "close": {
+      "hours": "10",
+      "minutes": "30"
+    }
+  },
+  {
+    "day": 5,
+    "closed": false,
+    "open": {
+      "hours": "1",
+      "minutes": "30"
+    },
+    "close": null
+  },
+  {
+    "day": 6,
+    "closed": true,
+    "open": null,
+    "close": null
+  },
+  {
+    "day": 7,
+    "closed": false,
+    "open": {
+      "hours": "1",
+      "minutes": "30"
+    },
+    "close": null
+  }
+]
